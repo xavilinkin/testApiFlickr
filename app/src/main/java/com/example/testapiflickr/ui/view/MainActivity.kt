@@ -1,7 +1,8 @@
-package com.example.testapiflickr
+package com.example.testapiflickr.ui.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.testapiflickr.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

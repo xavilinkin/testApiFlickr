@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/searchFlickrFragment">
+
+    <fragment
+        android:id="@+id/detailFlickFragment"
+        android:name="com.example.testapiflickr.ui.view.fragments.DetailFlickFragment"
+        android:label="fragment_detail_flick"
+        tools:layout="@layout/fragment_detail_flick" />
+    <fragment
+        android:id="@+id/searchFlickrFragment"
+        android:name="com.example.testapiflickr.ui.view.fragments.SearchFlickrFragment"
+        android:label="fragment_search_flickr"
+        tools:layout="@layout/fragment_search_flickr" >
+        <action
+            android:id="@+id/action_searchFlickrFragment_to_detailFlickFragment"
+            app:destination="@id/detailFlickFragment" />
+    </fragment>
+</navigation>
