@@ -4,8 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.testapiflickr.constants.Constants.HOSTNAME_PHOTOS
+import com.example.testapiflickr.constants.Constants.SMALL_IMAGE
 import com.example.testapiflickr.data.model.ItemPhoto
 import com.example.testapiflickr.databinding.ItemPhotoBinding
+import com.squareup.picasso.Picasso
 
 class ListSearchFlickAdapter(private val listSearch: List<ItemPhoto>) :
     RecyclerView.Adapter<ListSearchFlickAdapter.ListSearchHolder>() {
@@ -25,7 +28,16 @@ class ListSearchFlickAdapter(private val listSearch: List<ItemPhoto>) :
 
     inner class ListSearchHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(itemPhoto: ItemPhoto) {
-            binding.namePhotoTextView.text = itemPhoto.title
+            val title = if (itemPhoto.title.isBlank()) {
+                "not title"
+            } else {
+                itemPhoto.title
+            }
+            binding.namePhotoTextView.text = title
+            val image = HOSTNAME_PHOTOS + itemPhoto.server + "/" +
+                    itemPhoto.id + "_" + itemPhoto.secret
+            val formatImage = image + SMALL_IMAGE
+            Picasso.get().load(formatImage).into(binding.imageImageView)
         }
     }
 }
