@@ -8,25 +8,26 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
-import com.example.testapiflickr.data.model.SearchModel
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.testapiflickr.data.model.ItemPhoto
 import com.example.testapiflickr.databinding.FragmentSearchFlickrBinding
+import com.example.testapiflickr.ui.view.adapter.ListSearchFlickAdapter
 import com.example.testapiflickr.ui.viewmodel.SearchViewModel
 
 class SearchFlickrFragment : Fragment() {
     private var _binding: FragmentSearchFlickrBinding? = null
     private val binding get() = _binding!!
     private val searchViewModel: SearchViewModel by viewModels()
+    private val itemsPhoto = mutableListOf<ItemPhoto>()
+    lateinit var adapterSearchFlickr: ListSearchFlickAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchFlickrBinding.inflate(inflater, container, false)
-        binding.testClick.setOnClickListener {
-            testNavigation()
-        }
+        initRecyclerView()
         loadDataSearch()
         binding.tagSearchView.setOnQueryTextListener(configureSearch())
         return binding.root
@@ -36,12 +37,17 @@ class SearchFlickrFragment : Fragment() {
         searchViewModel.mutableSearch.observe(
             viewLifecycleOwner,
             Observer { Result ->
-                testResult(Result)
+                val listPhoto = Result.photos?.photo ?: emptyList()
+                itemsPhoto.clear()
+                itemsPhoto.addAll(listPhoto)
+                adapterSearchFlickr.notifyDataSetChanged()
             })
     }
 
-    private fun testResult(test: SearchModel?) {
-        val prueba = test
+    private fun initRecyclerView() {
+        adapterSearchFlickr = ListSearchFlickAdapter(itemsPhoto)
+        binding.listSearchRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.listSearchRecyclerView.adapter = adapterSearchFlickr
     }
 
     private fun configureSearch(): androidx.appcompat.widget.SearchView.OnQueryTextListener {

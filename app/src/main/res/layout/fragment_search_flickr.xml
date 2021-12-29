@@ -3,20 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.view.fragments.SearchFlickrFragment"
-    android:background="@color/teal_700">
+    android:background="@color/teal_700"
+    tools:context=".ui.view.fragments.SearchFlickrFragment">
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/tagSearchView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"/>
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/testClick"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Hola buscador" />
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/tagSearchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white" />
 
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/searchScroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tagSearchView">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/listSearchRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
 </FrameLayout>
