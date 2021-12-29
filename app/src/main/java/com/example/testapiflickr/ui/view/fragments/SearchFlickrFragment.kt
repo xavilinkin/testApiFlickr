@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.navigation.fragment.findNavController
 import com.example.testapiflickr.databinding.FragmentSearchFlickrBinding
 
@@ -24,16 +25,36 @@ class SearchFlickrFragment : Fragment() {
         binding.testClick.setOnClickListener {
             testNavigation()
         }
+        binding.tagSearchView.setOnQueryTextListener(configureSearch())
         return binding.root
     }
 
-    private fun testNavigation(){
-        val passArgs = SearchFlickrFragmentDirections.actionSearchFlickrFragmentToDetailFlickFragment("12345", "https://url.invent")
+    private fun testNavigation() {
+        val passArgs =
+            SearchFlickrFragmentDirections.actionSearchFlickrFragmentToDetailFlickFragment(
+                "12345",
+                "https://url.invent"
+            )
         findNavController().navigate(passArgs)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun configureSearch(): androidx.appcompat.widget.SearchView.OnQueryTextListener {
+        return object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                binding.testClick.text = "He buscado $p0"
+                return false
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                return false
+            }
+
+        }
     }
 }

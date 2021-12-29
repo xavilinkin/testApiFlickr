@@ -6,10 +6,17 @@
     tools:context=".ui.view.fragments.SearchFlickrFragment"
     android:background="@color/teal_700">
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/tagSearchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"/>
+
     <TextView
         android:id="@+id/testClick"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="Hola buscador" />
 
 </FrameLayout>
