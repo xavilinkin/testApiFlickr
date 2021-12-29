@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.testapiflickr.databinding.FragmentSearchFlickrBinding
 
 class SearchFlickrFragment : Fragment() {
@@ -20,7 +21,15 @@ class SearchFlickrFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchFlickrBinding.inflate(inflater, container, false)
+        binding.testClick.setOnClickListener {
+            testNavigation()
+        }
         return binding.root
+    }
+
+    private fun testNavigation(){
+        val passArgs = SearchFlickrFragmentDirections.actionSearchFlickrFragmentToDetailFlickFragment("12345", "https://url.invent")
+        findNavController().navigate(passArgs)
     }
 
     override fun onDestroy() {

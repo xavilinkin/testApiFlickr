@@ -9,12 +9,21 @@
         android:id="@+id/detailFlickFragment"
         android:name="com.example.testapiflickr.ui.view.fragments.DetailFlickFragment"
         android:label="fragment_detail_flick"
-        tools:layout="@layout/fragment_detail_flick" />
+        tools:layout="@layout/fragment_detail_flick">
+        <argument
+            android:name="id_photo"
+            android:defaultValue="0"
+            app:argType="string" />
+        <argument
+            android:name="url_photo"
+            android:defaultValue="notUrl"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/searchFlickrFragment"
         android:name="com.example.testapiflickr.ui.view.fragments.SearchFlickrFragment"
         android:label="fragment_search_flickr"
-        tools:layout="@layout/fragment_search_flickr" >
+        tools:layout="@layout/fragment_search_flickr">
         <action
             android:id="@+id/action_searchFlickrFragment_to_detailFlickFragment"
             app:destination="@id/detailFlickFragment" />
