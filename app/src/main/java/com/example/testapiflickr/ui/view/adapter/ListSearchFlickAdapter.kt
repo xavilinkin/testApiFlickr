@@ -8,9 +8,13 @@ import com.example.testapiflickr.constants.Constants.HOSTNAME_PHOTOS
 import com.example.testapiflickr.constants.Constants.SMALL_IMAGE
 import com.example.testapiflickr.data.model.ItemPhoto
 import com.example.testapiflickr.databinding.ItemPhotoBinding
+import com.example.testapiflickr.ui.view.fragments.listener.OnClickListFlickrListener
 import com.squareup.picasso.Picasso
 
-class ListSearchFlickAdapter(private val listSearch: List<ItemPhoto>) :
+class ListSearchFlickAdapter(
+    private val listSearch: List<ItemPhoto>,
+    private var listener: OnClickListFlickrListener
+) :
     RecyclerView.Adapter<ListSearchFlickAdapter.ListSearchHolder>() {
     private lateinit var binding: ItemPhotoBinding
 
@@ -38,6 +42,9 @@ class ListSearchFlickAdapter(private val listSearch: List<ItemPhoto>) :
                     itemPhoto.id + "_" + itemPhoto.secret
             val formatImage = image + SMALL_IMAGE
             Picasso.get().load(formatImage).into(binding.imageImageView)
+            binding.nameItemCardView.setOnClickListener {
+                listener.goToImage(itemPhoto.id, image)
+            }
         }
     }
 }

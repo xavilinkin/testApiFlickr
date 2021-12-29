@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testapiflickr.data.model.ItemPhoto
 import com.example.testapiflickr.databinding.FragmentSearchFlickrBinding
 import com.example.testapiflickr.ui.view.adapter.ListSearchFlickAdapter
+import com.example.testapiflickr.ui.view.fragments.listener.OnClickListFlickrListener
 import com.example.testapiflickr.ui.viewmodel.SearchViewModel
 
 class SearchFlickrFragment : Fragment() {
@@ -21,12 +22,14 @@ class SearchFlickrFragment : Fragment() {
     private val searchViewModel: SearchViewModel by viewModels()
     private val itemsPhoto = mutableListOf<ItemPhoto>()
     lateinit var adapterSearchFlickr: ListSearchFlickAdapter
+    lateinit var listener: OnClickListFlickrListener
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchFlickrBinding.inflate(inflater, container, false)
+        setListener()
         initRecyclerView()
         loadDataSearch()
         binding.tagSearchView.setOnQueryTextListener(configureSearch())
@@ -45,7 +48,7 @@ class SearchFlickrFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        adapterSearchFlickr = ListSearchFlickAdapter(itemsPhoto)
+        adapterSearchFlickr = ListSearchFlickAdapter(itemsPhoto, listener)
         binding.listSearchRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.listSearchRecyclerView.adapter = adapterSearchFlickr
     }
@@ -66,17 +69,22 @@ class SearchFlickrFragment : Fragment() {
         }
     }
 
+    private fun setListener() {
+        listener = object : OnClickListFlickrListener {
+            override fun goToImage(idPhoto: String, urlImage: String) {
+                val passArgs =
+                    SearchFlickrFragmentDirections.actionSearchFlickrFragmentToDetailFlickFragment(
+                        idPhoto,
+                        urlImage
+                    )
+                findNavController().navigate(passArgs)
+            }
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
 
-    private fun testNavigation() {
-        val passArgs =
-            SearchFlickrFragmentDirections.actionSearchFlickrFragmentToDetailFlickFragment(
-                "12345",
-                "https://url.invent"
-            )
-        findNavController().navigate(passArgs)
-    }
 }
