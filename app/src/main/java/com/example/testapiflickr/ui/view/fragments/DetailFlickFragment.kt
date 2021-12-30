@@ -49,10 +49,23 @@ class DetailFlickFragment : Fragment() {
     }
 
     private fun setText(info: PhotoInfoModel) {
-        binding.authorTextView.text = "Author: " + info.photo?.owner?.username
-        binding.titleTextView.text = "Title: " + info.photo?.title?._content
-        binding.dateTextView.text = "Date: " + info.photo?.dates?.taken
-        binding.descriptionTextView.text = "Description: " + info.photo?.description?._content
+        binding.authorTextView.text = "Author: " + controlText(info.photo?.owner?.username)
+        binding.titleTextView.text = "Title: " + controlText(info.photo?.title?._content)
+        binding.dateTextView.text = "Date: " + controlText(info.photo?.dates?.taken, true)
+        binding.descriptionTextView.text =
+            "Description: " + controlText(info.photo?.description?._content)
+    }
+
+    private fun controlText(data: String?, isDate: Boolean = false): String {
+        return if (data.isNullOrBlank()) {
+            "no data"
+        } else {
+            if (isDate) {
+                data.substring(0, 10)
+            } else {
+                data
+            }
+        }
     }
 
     private fun setDataImage() {
