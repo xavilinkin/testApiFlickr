@@ -6,6 +6,7 @@ import com.example.testapiflickr.constants.NetworkConstants.FORMAT
 import com.example.testapiflickr.constants.NetworkConstants.NO_JSON_CALLBACK
 import com.example.testapiflickr.constants.NetworkConstants.PATH_INFO
 import com.example.testapiflickr.core.RetrofitHelper
+import com.example.testapiflickr.data.model.ListSearch
 import com.example.testapiflickr.data.model.PhotoInfoModel
 import com.example.testapiflickr.data.model.SearchModel
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +21,11 @@ class FlickrService {
                 "?method=" + PATH_SEARCH + "&api_key=" + API_KEY + "&tags=" + idPhoto +
                         "&format=" + FORMAT + "&nojsoncallback=" + NO_JSON_CALLBACK
             )
-            response.body()
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                SearchModel(ListSearch(null))
+            }
         }
     }
 

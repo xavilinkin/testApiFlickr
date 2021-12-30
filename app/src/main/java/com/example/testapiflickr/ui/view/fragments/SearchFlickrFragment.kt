@@ -54,11 +54,11 @@ class SearchFlickrFragment : Fragment() {
             viewLifecycleOwner,
             Observer { Result ->
                 binding.loadingSearch.visibility = View.GONE
-                loadDataOk(Result)
+                loadData(Result)
             })
     }
 
-    private fun loadDataOk(data: SearchModel) {
+    private fun loadData(data: SearchModel) {
         if (data.photos?.photo?.isNotEmpty() == true) {
             val listPhoto = data.photos.photo
             binding.listSearchRecyclerView.visibility = View.VISIBLE
@@ -67,7 +67,11 @@ class SearchFlickrFragment : Fragment() {
             initRecyclerView()
             adapterSearchFlickr.notifyDataSetChanged()
         } else {
-            errorText("No results found!")
+            if (data.photos?.photo?.isEmpty() == true) {
+                errorText("No results found!")
+            } else {
+                errorText("An error has occurred!")
+            }
         }
     }
 

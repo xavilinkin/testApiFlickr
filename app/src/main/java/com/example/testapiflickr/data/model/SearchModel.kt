@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class SearchModel(@SerializedName("photos") val photos: ListSearch?)
 
-data class ListSearch(@SerializedName("photo") val photo: List<ItemPhoto>)
+data class ListSearch(@SerializedName("photo") val photo: List<ItemPhoto>?)
 
 data class ItemPhoto(
     @SerializedName("id") val id: String,
