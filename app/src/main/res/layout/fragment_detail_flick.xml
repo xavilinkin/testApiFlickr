@@ -22,6 +22,7 @@
             tools:text="Volver" />
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/detailScroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textBack">
@@ -89,5 +90,13 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
+
+        <ProgressBar
+            android:id="@+id/loadingDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foregroundGravity="center"
+            android:layout_marginTop="100dp"
+            android:visibility="gone"/>
     </RelativeLayout>
 </FrameLayout>

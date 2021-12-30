@@ -31,7 +31,8 @@ class DetailFlickFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDetailFlickBinding.inflate(inflater, container, false)
-        binding.textBack.text = "Volver"
+        binding.loadingDetail.visibility = View.VISIBLE
+        binding.textBack.text = "Back"
         binding.textBack.setOnClickListener {
             parentFragment?.findNavController()?.popBackStack()
         }
@@ -41,16 +42,17 @@ class DetailFlickFragment : Fragment() {
 
     private fun loadDataInfo() {
         detailViewModel.mutableInfoPhoto.observe(viewLifecycleOwner, Observer { InfoPhoto ->
+            binding.loadingDetail.visibility = View.GONE
             setDataImage()
             setText(InfoPhoto)
         })
     }
 
     private fun setText(info: PhotoInfoModel) {
-        binding.authorTextView.text = "Autor: " + info.photo?.owner?.username
-        binding.titleTextView.text = "Título: " + info.photo?.title?._content
-        binding.dateTextView.text = "Fecha: " + info.photo?.dates?.taken
-        binding.descriptionTextView.text = "Descripción: " + info.photo?.description?._content
+        binding.authorTextView.text = "Author: " + info.photo?.owner?.username
+        binding.titleTextView.text = "Title: " + info.photo?.title?._content
+        binding.dateTextView.text = "Date: " + info.photo?.dates?.taken
+        binding.descriptionTextView.text = "Description: " + info.photo?.description?._content
     }
 
     private fun setDataImage() {

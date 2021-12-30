@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tagSearchView"
             android:foregroundGravity="center_vertical"
+            android:layout_marginTop="100dp"
             android:visibility="gone"/>
     </RelativeLayout>
 </FrameLayout>
