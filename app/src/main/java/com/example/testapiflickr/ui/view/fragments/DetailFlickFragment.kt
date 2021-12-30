@@ -49,8 +49,12 @@ class DetailFlickFragment : Fragment() {
     private fun loadDataInfo() {
         detailViewModel.mutableInfoPhoto.observe(viewLifecycleOwner, Observer { InfoPhoto ->
             binding.loadingDetail.visibility = View.GONE
-            setDataImage()
-            setText(InfoPhoto)
+            if (InfoPhoto.photo == null) {
+                errorText("An error has occurred, click to reload")
+            } else {
+                setDataImage()
+                setText(InfoPhoto)
+            }
         })
     }
 
