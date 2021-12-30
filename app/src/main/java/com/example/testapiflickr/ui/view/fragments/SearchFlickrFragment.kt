@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testapiflickr.data.model.ItemPhoto
+import com.example.testapiflickr.data.model.SearchModel
 import com.example.testapiflickr.databinding.FragmentSearchFlickrBinding
 import com.example.testapiflickr.ui.view.adapter.ListSearchFlickAdapter
 import com.example.testapiflickr.ui.view.fragments.listener.OnClickListFlickrListener
@@ -37,8 +38,8 @@ class SearchFlickrFragment : Fragment() {
         return binding.root
     }
 
-    private fun initText (){
-        if (count == 0){
+    private fun initText() {
+        if (count == 0) {
             binding.initTextView.visibility = View.VISIBLE
             binding.initTextView.text = "Hi, look for photos on Flickr!"
             count++
@@ -51,14 +52,22 @@ class SearchFlickrFragment : Fragment() {
         searchViewModel.mutableSearch.observe(
             viewLifecycleOwner,
             Observer { Result ->
-                binding.listSearchRecyclerView.visibility = View.VISIBLE
                 binding.loadingSearch.visibility = View.GONE
-                val listPhoto = Result.photos?.photo ?: emptyList()
-                itemsPhoto.clear()
-                itemsPhoto.addAll(listPhoto)
-                initRecyclerView()
-                adapterSearchFlickr.notifyDataSetChanged()
+                loadDataOk(Result)
             })
+    }
+
+    private fun loadDataOk(data: SearchModel) {
+        if (data.photos?.photo?.isNotEmpty() == true) {
+            val listPhoto = data.photos.photo
+            binding.listSearchRecyclerView.visibility = View.VISIBLE
+            itemsPhoto.clear()
+            itemsPhoto.addAll(listPhoto)
+            initRecyclerView()
+            adapterSearchFlickr.notifyDataSetChanged()
+        } else {
+            errorText("No results found!")
+        }
     }
 
     private fun initRecyclerView() {
@@ -72,6 +81,7 @@ class SearchFlickrFragment : Fragment() {
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 if (!p0.isNullOrBlank()) {
+                    binding.warningTextView.visibility = View.GONE
                     binding.initTextView.visibility = View.GONE
                     binding.listSearchRecyclerView.visibility = View.GONE
                     binding.loadingSearch.visibility = View.VISIBLE
@@ -84,6 +94,11 @@ class SearchFlickrFragment : Fragment() {
                 return false
             }
         }
+    }
+
+    private fun errorText(setText: String) {
+        binding.warningTextView.visibility = View.VISIBLE
+        binding.warningTextView.text = setText
     }
 
     private fun setListener() {
