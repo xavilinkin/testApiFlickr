@@ -40,6 +40,8 @@ class SearchFlickrFragment : Fragment() {
         searchViewModel.mutableSearch.observe(
             viewLifecycleOwner,
             Observer { Result ->
+                binding.listSearchRecyclerView.visibility = View.VISIBLE
+                binding.loadingSearch.visibility = View.GONE
                 val listPhoto = Result.photos?.photo ?: emptyList()
                 itemsPhoto.clear()
                 itemsPhoto.addAll(listPhoto)
@@ -58,6 +60,8 @@ class SearchFlickrFragment : Fragment() {
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 if (!p0.isNullOrBlank()) {
+                    binding.listSearchRecyclerView.visibility = View.GONE
+                    binding.loadingSearch.visibility = View.VISIBLE
                     searchViewModel.onCreate(p0)
                 }
                 return false
