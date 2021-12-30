@@ -6,4 +6,5 @@ object NetworkConstants {
     const val PATH_SEARCH = "flickr.photos.search"
     const val FORMAT = "json"
     const val NO_JSON_CALLBACK = "1"
+    const val PATH_INFO = "flickr.photos.getInfo"
 }

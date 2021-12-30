@@ -5,19 +5,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.testapiflickr.constants.Constants
+import com.example.testapiflickr.data.model.PhotoInfoModel
 import com.example.testapiflickr.databinding.FragmentDetailFlickBinding
+import com.example.testapiflickr.ui.viewmodel.DetailViewModel
 import com.squareup.picasso.Picasso
 
 class DetailFlickFragment : Fragment() {
     private var _binding: FragmentDetailFlickBinding? = null
     private val binding get() = _binding!!
     private val args: DetailFlickFragmentArgs by navArgs()
+    private val detailViewModel: DetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        detailViewModel.onCreate(args.idPhoto)
     }
 
     override fun onCreateView(
@@ -29,16 +35,22 @@ class DetailFlickFragment : Fragment() {
         binding.textBack.setOnClickListener {
             parentFragment?.findNavController()?.popBackStack()
         }
-        setDataImage()
-        setText()
+        loadDataInfo()
         return binding.root
     }
 
-    private fun setText() {
-        binding.authorTextView.text = "Autor: F. Alonso"
-        binding.titleTextView.text = "Título: Fórmula 1"
-        binding.dateTextView.text = "Fecha: 18/09/1939"
-        binding.descriptionTextView.text = "Descripción: No description"
+    private fun loadDataInfo() {
+        detailViewModel.mutableInfoPhoto.observe(viewLifecycleOwner, Observer { InfoPhoto ->
+            setDataImage()
+            setText(InfoPhoto)
+        })
+    }
+
+    private fun setText(info: PhotoInfoModel) {
+        binding.authorTextView.text = "Autor: " + info.photo?.owner?.username
+        binding.titleTextView.text = "Título: " + info.photo?.title?._content
+        binding.dateTextView.text = "Fecha: " + info.photo?.dates?.taken
+        binding.descriptionTextView.text = "Descripción: " + info.photo?.description?._content
     }
 
     private fun setDataImage() {
