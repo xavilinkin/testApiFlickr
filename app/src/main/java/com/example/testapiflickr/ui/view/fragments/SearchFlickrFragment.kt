@@ -30,7 +30,6 @@ class SearchFlickrFragment : Fragment() {
     ): View {
         _binding = FragmentSearchFlickrBinding.inflate(inflater, container, false)
         setListener()
-        initRecyclerView()
         loadDataSearch()
         binding.tagSearchView.setOnQueryTextListener(configureSearch())
         return binding.root
@@ -45,6 +44,7 @@ class SearchFlickrFragment : Fragment() {
                 val listPhoto = Result.photos?.photo ?: emptyList()
                 itemsPhoto.clear()
                 itemsPhoto.addAll(listPhoto)
+                initRecyclerView()
                 adapterSearchFlickr.notifyDataSetChanged()
             })
     }
