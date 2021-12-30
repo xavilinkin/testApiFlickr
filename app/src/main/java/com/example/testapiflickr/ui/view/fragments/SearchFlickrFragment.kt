@@ -16,6 +16,7 @@ import com.example.testapiflickr.databinding.FragmentSearchFlickrBinding
 import com.example.testapiflickr.ui.view.adapter.ListSearchFlickAdapter
 import com.example.testapiflickr.ui.view.fragments.listener.OnClickListFlickrListener
 import com.example.testapiflickr.ui.viewmodel.SearchViewModel
+import com.example.testapiflickr.utils.Utils
 
 class SearchFlickrFragment : Fragment() {
     private var _binding: FragmentSearchFlickrBinding? = null
@@ -85,7 +86,12 @@ class SearchFlickrFragment : Fragment() {
                     binding.initTextView.visibility = View.GONE
                     binding.listSearchRecyclerView.visibility = View.GONE
                     binding.loadingSearch.visibility = View.VISIBLE
-                    searchViewModel.onCreate(p0)
+                    if (context?.let { Utils.isNetworkAvailable(it) } == true) {
+                        searchViewModel.onCreate(p0)
+                    } else {
+                        binding.loadingSearch.visibility = View.GONE
+                        errorText("no connection, please activate")
+                    }
                 }
                 return false
             }
