@@ -36,5 +36,31 @@
             android:foregroundGravity="center_vertical"
             android:layout_marginTop="100dp"
             android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/initTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/loadingSearch"
+            android:textColor="@color/purple_700"
+            android:layout_margin="16dp"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:text="Hi, look for photos"/>
+
+        <TextView
+            android:id="@+id/warningTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/loadingSearch"
+            android:textColor="@color/red"
+            android:layout_margin="16dp"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:text="No results found!"/>
     </RelativeLayout>
 </FrameLayout>

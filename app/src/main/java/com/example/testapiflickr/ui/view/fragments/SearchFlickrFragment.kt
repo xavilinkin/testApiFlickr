@@ -21,8 +21,9 @@ class SearchFlickrFragment : Fragment() {
     private val binding get() = _binding!!
     private val searchViewModel: SearchViewModel by viewModels()
     private val itemsPhoto = mutableListOf<ItemPhoto>()
-    lateinit var adapterSearchFlickr: ListSearchFlickAdapter
+    private lateinit var adapterSearchFlickr: ListSearchFlickAdapter
     lateinit var listener: OnClickListFlickrListener
+    private var count: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,8 +32,19 @@ class SearchFlickrFragment : Fragment() {
         _binding = FragmentSearchFlickrBinding.inflate(inflater, container, false)
         setListener()
         loadDataSearch()
+        initText()
         binding.tagSearchView.setOnQueryTextListener(configureSearch())
         return binding.root
+    }
+
+    private fun initText (){
+        if (count == 0){
+            binding.initTextView.visibility = View.VISIBLE
+            binding.initTextView.text = "Hi, look for photos on Flickr!"
+            count++
+        } else {
+            binding.initTextView.visibility = View.GONE
+        }
     }
 
     private fun loadDataSearch() {
@@ -60,6 +72,7 @@ class SearchFlickrFragment : Fragment() {
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 if (!p0.isNullOrBlank()) {
+                    binding.initTextView.visibility = View.GONE
                     binding.listSearchRecyclerView.visibility = View.GONE
                     binding.loadingSearch.visibility = View.VISIBLE
                     searchViewModel.onCreate(p0)
