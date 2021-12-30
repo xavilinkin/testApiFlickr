@@ -35,7 +35,11 @@ class FlickrService {
                 "?method=" + PATH_INFO + "&api_key=" + API_KEY + "&photo_id=" + id +
                         "&format=" + FORMAT + "&nojsoncallback=" + NO_JSON_CALLBACK
             )
-            response.body()
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                PhotoInfoModel(null)
+            }
         }
     }
 }

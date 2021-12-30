@@ -13,6 +13,7 @@ import com.example.testapiflickr.constants.Constants
 import com.example.testapiflickr.data.model.PhotoInfoModel
 import com.example.testapiflickr.databinding.FragmentDetailFlickBinding
 import com.example.testapiflickr.ui.viewmodel.DetailViewModel
+import com.example.testapiflickr.utils.Utils
 import com.squareup.picasso.Picasso
 
 class DetailFlickFragment : Fragment() {
@@ -23,7 +24,9 @@ class DetailFlickFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        detailViewModel.onCreate(args.idPhoto)
+        if (context?.let { Utils.isNetworkAvailable(it) } == true) {
+            detailViewModel.onCreate(args.idPhoto)
+        }
     }
 
     override fun onCreateView(
@@ -35,6 +38,9 @@ class DetailFlickFragment : Fragment() {
         binding.textBack.text = "Back"
         binding.textBack.setOnClickListener {
             parentFragment?.findNavController()?.popBackStack()
+        }
+        if (context?.let { Utils.isNetworkAvailable(it) } != true) {
+            errorText("no connection, please activate and click to reload")
         }
         loadDataInfo()
         return binding.root
@@ -71,6 +77,19 @@ class DetailFlickFragment : Fragment() {
     private fun setDataImage() {
         val formatImage = args.urlPhoto + Constants.BIG_IMAGE
         Picasso.get().load(formatImage).into(binding.imageFlickrImageView)
+    }
+
+    private fun errorText(setText: String) {
+        binding.warningTextView.visibility = View.VISIBLE
+        binding.loadingDetail.visibility = View.GONE
+        binding.warningTextView.text = setText
+        binding.warningTextView.setOnClickListener {
+            if (context?.let { Utils.isNetworkAvailable(it) } == true) {
+                binding.warningTextView.visibility = View.GONE
+                binding.loadingDetail.visibility = View.VISIBLE
+                detailViewModel.onCreate(args.idPhoto)
+            }
+        }
     }
 
     override fun onDestroy() {
